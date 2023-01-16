@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardknox API</title>
+    <link rel="stylesheet" href="cardknox.css">
+</head>
+<body>
+    <form id="payment-form" action="/reportjson" method="post">
+        <label for="xKey">Cardknox Key:</label>
+        <input type="text" id="xKey" name="xKey" />
+        <label for="xCommand">Command:</label>
+        <select id="xCommand" name="xCommand">
+          <option value="Report:Approved">Report:Approved</option>
+        </select>
+       <div id="reportFields" style="display: none">
+          <label for="xBeginDate">Begin Date:</label>
+          <input type="date" id="xBeginDate" name="xBeginDate" />
+          <label for="xEndDate">End Date:</label>
+          <input type="date" id="xEndDate" name="xEndDate" />
+        </div>
+        <button type="submit">Submit</button>
+
+        <script src="cardknox.js"></script>
+</body>
+</html>
