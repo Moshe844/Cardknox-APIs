@@ -6,10 +6,13 @@ const path = require("path");
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/static", express.static(path.join(__dirname, "public")));
+
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/reportjson", (req, res) => {
-  const { xKey, xCommand, xBeginDate, xEndDate } = req.body;
+  const { xKey, xCommand, xBeginDate, xEndDate } = req.query;
+
+  console.log(req.query);
 
   if (!xKey || !xCommand || !xBeginDate || !xEndDate) {
     return res.status(400).json({ message: "Missing required parameters" });
@@ -34,7 +37,7 @@ app.get("/reportjson", (req, res) => {
     }
     try {
       const data = JSON.parse(body);
-      res.json({
+      return res.status(200).json({
         xAmount: data.xAmount,
         xCardType: data.xCardType,
         xCommand: data.xCommand,

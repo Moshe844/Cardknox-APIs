@@ -8,19 +8,17 @@
     <link rel="stylesheet" href="cardknox.css">
 </head>
 <body>
-    <form id="payment-form" action="/reportjson" method="post">
+    <form id="payment-form" action="/reportjson" method="POST">
         <label for="xKey">Cardknox Key:</label>
         <input type="text" id="xKey" name="xKey" />
         <label for="xCommand">Command:</label>
         <select id="xCommand" name="xCommand">
           <option value="Report:Approved">Report:Approved</option>
         </select>
-       <div id="reportFields" style="display: none">
           <label for="xBeginDate">Begin Date:</label>
           <input type="date" id="xBeginDate" name="xBeginDate" />
           <label for="xEndDate">End Date:</label>
           <input type="date" id="xEndDate" name="xEndDate" />
-        </div>
         <button type="submit">Submit</button>
 
         <script src="cardknox.js"></script>
