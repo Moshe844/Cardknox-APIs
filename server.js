@@ -4,55 +4,66 @@ const bodyParser = require("body-parser");
 const path = require("path");
 
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/cardknox.html"));
-});
-
-app.get("/reportjson", (req, res) => {
-  const { xKey, xCommand, xBeginDate, xEndDate } = req.query;
-
-  console.log(req.query);
+app.post("/reportjson", (req, res) => {
+  const { xKey, xCommand, xBeginDate, xEndDate } = req.body;
+  const xVersion = "5.0.0";
+  const xSoftwareName = "Cardknox";
+  const xSoftwareVersion = "2.1";
 
   if (!xKey || !xCommand || !xBeginDate || !xEndDate) {
     return res.status(400).json({ message: "Missing required parameters" });
   }
+
   const options = {
     url: "https://x1.cardknox.com/reportjson",
     method: "POST",
     headers: {
-      xVersion: "5.0.0",
-      xSoftwareName: "Cardknox",
-      xSoftwareVersion: "2.1",
       xKey: xKey,
       xCommand: xCommand,
       xBeginDate: xBeginDate,
       xEndDate: xEndDate,
+      xVersion: xVersion,
+      xSoftwareName: xSoftwareName,
+      xSoftwareVersion: xSoftwareVersion,
     },
   };
+  // console.log(options);
 
   request(options, (error, response, body) => {
-    if (error) {
-      return res.status(500).json({ message: "Error making API request" });
-    }
+    // if (error) {
+    //   return console.log(error);
+    // }
     try {
-      const data = JSON.parse(body);
-      return res.status(200).json({
-        xAmount: data.xAmount,
-        xCardType: data.xCardType,
-        xCommand: data.xCommand,
-        xEnteredDate: data.xEnteredDate,
-        xMaskedCardnumber: data.xMaskedCardnumber,
-        xRefnum: data.xRefnum,
-        xResponseResult: data.xResponseResult,
-        xToken: data.xToken,
-      });
-    } catch (err) {
-      return res.status(500).json({ message: "Error parsing response" });
+      // Parse the response from the API
+      let json = JSON.parse(body);
+
+      // Extract the desired JSON object from the response
+      let result = {
+        xRefNum: json.xRefNum,
+        xCommand: json.xCommand,
+        xName: json.xName,
+        xMaskedCardNumber: json.xMaskedCardNumber,
+        xToken: json.xToken,
+        xAmount: json.xAmount,
+        xRequestAmount: json.xRequestAmount,
+        xCustom01: json.xCustom01,
+        xCustom02: json.xCustom02,
+        xEnteredDate: json.xEnteredDate,
+        xResponseAuthCode: json.xResponseAuthCode,
+        xResponseResult: json.xResponseResult,
+      };
+
+      // Send the desired JSON object as the response
+      console.log(result);
+      return res.status(200).json(result);
+      // console.log(result);
+    } catch (e) {
+      return console.log("The response is not a valid JSON", body);
     }
   });
 });

@@ -1,26 +1,37 @@
+const form = document.getElementById("payment-form");
+
+const xKeyEl = document.getElementById("xKey");
+const xCommandEl = document.getElementById("xCommand");
+const xBeginDateEl = document.getElementById("xBeginDate");
+const xEndDateEl = document.getElementById("xEndDate");
+
 document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("payment-form");
   form.addEventListener("submit", function (event) {
-    console.log("it is working");
     event.preventDefault();
-    const xKey = document.getElementById("xKey").value;
-    const xCommand = document.getElementById("xCommand").value;
-    const xBeginDate = document.getElementById("xBeginDate").value;
-    const xEndDate = document.getElementById("xEndDate").value;
-    fetch(
-      "/reportjson?xKey=" +
-        xKey +
-        "&xCommand=" +
-        xCommand +
-        "&xBeginDate=" +
-        xBeginDate +
-        "&xEndDate=" +
-        xEndDate
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        // Do something with the data here
-        console.log(data);
-      });
+
+    const xKey = xKeyEl.value;
+    const xCommand = xCommandEl.value;
+    const xBeginDate = xBeginDateEl.value;
+    const xEndDate = xEndDateEl.value;
+
+    fetchData("/reportjson", { xKey, xCommand, xBeginDate, xEndDate }).then(
+      (data) => {
+        console.log(data); // JSON data parsed by `data.json()` call
+      }
+    );
   });
 });
+
+const fetchData = async (url = "", data = {}) => {
+  console.log(data);
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data), // body data type must match "Content-Type" header
+  });
+
+  return response.json(); // parses JSON response into native JavaScript objects
+
+  r;
+};
