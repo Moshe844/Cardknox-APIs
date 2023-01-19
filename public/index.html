@@ -21,6 +21,30 @@
           <input type="date" id="xEndDate" name="xEndDate" />
         <button type="submit">Submit</button>
 
+        <table id="data-table" class="table-hide">
+          <thead>
+              <tr>
+                  <th>xRefNum</th>
+                  <th>xCommand</th>
+                  <th>xName</th>
+                  <th>xMaskedCardNumber</th>
+                  <th>xAmount</th>
+                  <th>xResponseResult</th>
+                  <th>xRequestAmount</th>
+                  <th>xEnteredDate</th>
+                  <th>xResponseAuthCode</th>
+              </tr>
+          </thead>
+          <tbody id="data-table-body"></tbody>
+      </table>
+            <!-- Rows will be added here dynamically with JavaScript -->
+          </tbody>
+        </table>
+        <button id="prev-button" disabled>Previous</button>
+        <button id="next-button" disabled>Next</button>
+        
+        
+
         <script src="cardknox.js"></script>
 </body>
 </html>
